@@ -58,4 +58,8 @@ Inicie o TailwindCSS em modo watch:
 
 npm run dev
 
+Conecte o MongoDB
+
+node server.js
+
 Abra o index.html em um navegador para visualizar o cardápio.
