@@ -2,7 +2,7 @@ Impacta Burger - Cardápio Online
 
 Impacta Burger é um cardápio online interativo para uma hamburgueria fictícia inspirada na faculdade Impacta. Este projeto utiliza HTML, CSS, TailwindCSS, JavaScript e Node.js para criar uma experiência moderna e responsiva para os clientes.
 
-📌 Funcionalidades Implementadas (Primeiro Commit)
+📌 Funcionalidades Implementadas (Terceiro Commit)
 
 Interface responsiva usando TailwindCSS
 
@@ -14,13 +14,13 @@ Rodapé fixo com botão para visualizar o carrinho
 
 Configuração inicial do TailwindCSS e estrutura do projeto
 
+🛒 Gerenciamento de Pedidos: pedidos feitos pelos clientes são enviados para um banco de dados e exibidos em um modal.
+
 🚀 Funcionalidades Futuras
 
 As seguintes melhorias estão planejadas para as próximas versões:
 
 🕒 Horário de Funcionamento Dinâmico: a div do horário de funcionamento mudará para vermelho caso esteja fora do expediente.
-
-🛒 Gerenciamento de Pedidos: pedidos feitos pelos clientes serão enviados para um banco de dados e exibidos em um modal.
 
 📩 Notificação ao Cliente: Após realizar um pedido, o cliente receberá uma mensagem (via email ou WhatsApp) informando que o pedido está a caminho e o tempo estimado de entrega.
 
