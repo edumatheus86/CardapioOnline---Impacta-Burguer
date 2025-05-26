@@ -76,7 +76,7 @@ function updateCartModal() {
                     <p class="font-medium mt-2">R$ ${item.price.toFixed(2)}</p>
                 </div>
 
-                    <button>
+                    <button class="remove-from-cart-btn" data-name="${item.name}">
                         Remover
                     </button>
                 
@@ -87,10 +87,110 @@ function updateCartModal() {
 
         cartItemsContainer.appendChild(cartItemElement) // Adiciona o item ao carrinho na interface
     })
- 
-    cartTotal.textContent = `R$ ${total.toFixed(2)}` // Atualiza o total na interface
-    cartCounter.innerHTML = cart.length // Atualiza o contador de itens no carrinho
 
+    cartTotal.textContent = `R$ ${total.toFixed(2)}` // Atualiza o total na interface
+    cartCounter.innerHTML = cart.length; // Atualiza o contador de itens no carrinho
+
+}
+
+//Função para remover item do carrinho
+cartItemsContainer.addEventListener("click", function (event) {
+    if (event.target.classList.contains("remove-from-cart-btn")) {
+        const name = event.target.getAttribute("data-name") // Pega o nome do item a ser removido
+
+        removeItemCart(name); /// Chama a função para remover o item
+    }
+})
+
+function removeItemCart(name) {
+    const index = cart.findIndex(item => item.name === name); // Encontra o índice do item a ser removido
+
+    if (index !== -1) {
+        const item = cart[index]; // Pega o item a ser removido
+
+        if (item.quantity > 1) {
+            item.quantity -= 1; // Se a quantidade for maior que 1, diminui a quantidade
+            updateCartModal(); // Atualiza o carrinho na interface
+            return;
+        }
+
+        cart.splice(index, 1); // Se a quantidade for 1, remove o item do carrinho
+        updateCartModal(); // Atualiza o carrinho na interface
+    }
+
+}
+
+adressInput.addEventListener("input", function (event) {
+    let inputValue = event.target.value.trim(); // Pega o valor do input e remove espaços em branco
+
+    if (inputValue !== "") {
+        adressInput.classList.remove("border-red-500") // Remove a classe de borda vermelha se o valor não estiver vazio
+        adressWarning.classList.add("hidden") // Esconde o aviso se o valor não estiver vazio
+    }
+})
+
+checkoutBtn.addEventListener("click", function () {
+    const isOpen = checkRestauranteOpen(); // Verifica se o restaurante está aberto
+    if (!isOpen) {
+        Toastify({
+            text: "Ops, o restaurante está fechado!",
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "#ef4444",
+            },
+
+        }).showToast(); // Exibe um aviso se o restaurante estiver fechado
+        return;
+    }
+
+
+    if (cart.length === 0) return;
+
+    if (adressInput.value.trim() === "") {
+        adressWarning.classList.remove("hidden") // Mostra o aviso se o endereço estiver vazio
+        adressInput.classList.add("border-red-500") // Adiciona a classe de borda vermelha
+        return;
+    }
+
+    //Enviar o pedido para a api WhatsApp
+
+    const cartItems = cart.map((item) => {
+        return (
+            `${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price} |` // Mapeia os itens do carrinho para o formato desejado
+        )
+    }).join("\n") // Junta os itens em uma string separada por quebras de linha
+
+    const message = encodeURIComponent(cartItems) // Codifica a mensagem para ser enviada via WhatsApp
+    const phone = "11947896699" // Número de telefone para onde a mensagem será enviada
+
+    window.open(`https://wa.me/${phone}?text=${message} Endereço:${adressInput.value}`, "_blank") // Abre o WhatsApp com a mensagem pré-preenchida
+
+    cart.length = 0; // Limpa o carrinho após o envio do pedido
+    updateCartModal(); // Atualiza o carrinho na interface
+
+
+})
+
+// Função para verificar se o restaurante está aberto
+function checkRestauranteOpen() {
+    const data = new Date();
+    const horaAtual = data.getHours();
+    return horaAtual >= 18 && horaAtual < 22; // Verifica se a hora atual está entre 18h e 22h
+}
+
+const spanItem = document.getElementById("date-span")
+const isOpen = checkRestauranteOpen(); // Chama a função para verificar se o restaurante está aberto
+
+if (isOpen) {
+    spanItem.classList.remove("bg-red-500") // Se o restaurante estiver aberto, remove a classe de oculto
+    spanItem.classList.add("bg-green-600") // Adiciona a classe de aberto
+} else {
+    spanItem.classList.remove("bg-green-600")
+    spanItem.classList.add("bg-red-500") // Se o restaurante estiver fechado, adiciona a classe de fechado
 }
 
 document.addEventListener('DOMContentLoaded', () => {

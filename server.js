@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Conectando ao MongoDB (para uma instalação local use 'mongodb://localhost:27017/impacta_burger')
+/// Conectando ao MongoDB (para uma instalação local use 'mongodb://localhost:27017/impacta_burger')
 // Se estiver usando o Atlas, substitua a URL pela sua string de conexão.
 mongoose.connect('mongodb://localhost:27017/impacta_burger', {
     useNewUrlParser: true,
